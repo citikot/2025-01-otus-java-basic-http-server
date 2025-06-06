@@ -20,24 +20,25 @@ public class ItemsRepository {
         return Collections.unmodifiableList(items);
     }
 
-    public Item get(Long id) {
-        for (Item i : items) {
-            if (i.getId().equals(id)) {
-                return i;
-            }
-        }
-        return null;
+    public Item getById(Long id) {
+        return items.stream().filter(i -> i.getId().equals(id)).findFirst().orElse(null);
     }
 
     public Item create(Item item) {
-        Long newId = 1L;
-        for (Item i : items) {
-            if (newId <= i.getId()) {
-                newId = i.getId() + 1L;
+
+        Object lock = new Object();
+
+        synchronized (lock) {
+            Long newId = 1L;
+            for (Item i : items) {
+                if (newId <= i.getId()) {
+                    newId = i.getId() + 1L;
+                }
             }
+            item.setId(newId);
+            items.add(item);
         }
-        item.setId(newId);
-        items.add(item);
+
         return item;
     }
 }
