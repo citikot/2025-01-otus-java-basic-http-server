@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class GetItemsRequestProcessor implements RequestProcessor {
+
     private ItemsRepository itemsRepository;
 
     public GetItemsRequestProcessor(ItemsRepository itemsRepository) {
@@ -19,14 +20,31 @@ public class GetItemsRequestProcessor implements RequestProcessor {
 
     @Override
     public void execute(HttpRequest request, OutputStream output) throws IOException {
-        List<Item> items = itemsRepository.getAll();
+
         Gson gson = new Gson();
-        String itemJson = gson.toJson(items);
+        String itemsJson;
+
+        if (request.getParameter("id") != null) {
+            Long id = Long.parseLong(request.getParameter("id"));
+            Item item = itemsRepository.getById(id);
+            if (item == null) {
+                String response = "HTTP/1.1 404 Not Found\r\n" +
+                        "Content-Type: text/html\r\n" +
+                        "\r\n" +
+                        "<html><body><h1>ITEM NOT FOUND!!!!!!!!!!!!!!!</h1></body></html>";
+                output.write(response.getBytes(StandardCharsets.UTF_8));
+                return;
+            }
+            itemsJson = gson.toJson(item);
+        } else {
+            List<Item> items = itemsRepository.getAll();
+            itemsJson = gson.toJson(items);
+        }
 
         String response = "HTTP/1.1 200 OK\r\n" +
                 "Content-Type: application/json\r\n" +
                 "\r\n" +
-                itemJson;
+                itemsJson;
         output.write(response.getBytes(StandardCharsets.UTF_8));
     }
 }
