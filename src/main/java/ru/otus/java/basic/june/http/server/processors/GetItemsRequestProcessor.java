@@ -8,11 +8,14 @@ import ru.otus.java.basic.june.http.server.app.ItemsRepository;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class GetItemsRequestProcessor implements RequestProcessor {
 
-    private ItemsRepository itemsRepository;
+    private final ItemsRepository itemsRepository;
 
     public GetItemsRequestProcessor(ItemsRepository itemsRepository) {
         this.itemsRepository = itemsRepository;
@@ -28,11 +31,16 @@ public class GetItemsRequestProcessor implements RequestProcessor {
             Long id = Long.parseLong(request.getParameter("id"));
             Item item = itemsRepository.getById(id);
             if (item == null) {
+                Path filePath = Paths.get("static/404.html");
+                byte[] fileData = Files.readAllBytes(filePath);
                 String response = "HTTP/1.1 404 Not Found\r\n" +
                         "Content-Type: text/html\r\n" +
                         "\r\n" +
-                        "<html><body><h1>ITEM NOT FOUND!!!!!!!!!!!!!!!</h1></body></html>";
+                        "<html><body>" +
+                        "<h1>ITEM NOT FOUND!!!!!!!!!!!!!!!</h1>" +
+                        "</body></html>";
                 output.write(response.getBytes(StandardCharsets.UTF_8));
+                output.write(fileData);
                 return;
             }
             itemsJson = gson.toJson(item);

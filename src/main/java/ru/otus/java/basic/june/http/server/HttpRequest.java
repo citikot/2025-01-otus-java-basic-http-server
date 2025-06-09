@@ -59,7 +59,7 @@ public class HttpRequest {
         if (uri.contains("?")) {
             String[] elements = uri.split("[?]");
             uri = elements[0];
-            String[] keysValues = elements[1].split("[&]");
+            String[] keysValues = elements[1].split("&");
             for (String o : keysValues) {
                 String[] keyValue = o.split("=");
                 parameters.put(keyValue[0], keyValue[1]);

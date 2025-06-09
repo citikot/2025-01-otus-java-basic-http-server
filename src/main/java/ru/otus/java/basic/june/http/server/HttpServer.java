@@ -3,7 +3,9 @@ package ru.otus.java.basic.june.http.server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -42,12 +44,15 @@ public class HttpServer {
 
     private void handleClient(Socket socket) {
         try (socket) {
-            byte[] buffer = new byte[8192];
-            int n = socket.getInputStream().read(buffer);
-            if (n < 1) {
-                return;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            StringBuilder requestBuilder = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null && !line.isEmpty()) {
+                requestBuilder.append(line).append("\r\n");
             }
-            String rawRequest = new String(buffer, 0, n);
+
+            String rawRequest = requestBuilder.toString();
             HttpRequest request = new HttpRequest(rawRequest);
             request.info();
 
