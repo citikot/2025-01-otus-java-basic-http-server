@@ -10,7 +10,8 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class CreateItemRequestProcessor implements RequestProcessor {
-    private ItemsRepository itemsRepository;
+
+    private final ItemsRepository itemsRepository;
 
     public CreateItemRequestProcessor(ItemsRepository itemsRepository) {
         this.itemsRepository = itemsRepository;

@@ -12,6 +12,9 @@ public class DefaultStaticResourcesProcessor implements RequestProcessor {
     @Override
     public void execute(HttpRequest httpRequest, OutputStream output) throws IOException {
         String filename = httpRequest.getUri().substring(1);
+        if (filename.isEmpty()) {
+            filename = "404.html";
+        }
         Path filePath = Paths.get("static/", filename);
         byte[] fileData = Files.readAllBytes(filePath);
         String response = "HTTP/1.1 200 OK\r\n" +

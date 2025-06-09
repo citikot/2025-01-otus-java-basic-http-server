@@ -5,6 +5,7 @@ import ru.otus.java.basic.june.http.server.exceptions.BadRequestException;
 import ru.otus.java.basic.june.http.server.processors.CalcRequestProcessor;
 import ru.otus.java.basic.june.http.server.processors.CreateItemRequestProcessor;
 import ru.otus.java.basic.june.http.server.processors.DefaultNotFoundRequestProcessor;
+import ru.otus.java.basic.june.http.server.processors.DefaultStaticResourcesProcessor;
 import ru.otus.java.basic.june.http.server.processors.GetItemsRequestProcessor;
 import ru.otus.java.basic.june.http.server.processors.HelloRequestProcessor;
 import ru.otus.java.basic.june.http.server.processors.RequestProcessor;
@@ -18,9 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Dispatcher {
-    private Map<String, RequestProcessor> routes;
-    private RequestProcessor defaultNotFountRequestProcessor;
-    private RequestProcessor defaultStaticResourcesRequestProcessor;
+    private final Map<String, RequestProcessor> routes;
+    private final RequestProcessor defaultNotFountRequestProcessor;
+    private final RequestProcessor defaultStaticResourcesRequestProcessor;
 
     public Dispatcher() {
         this.routes = new HashMap<>();
@@ -54,7 +55,7 @@ public class Dispatcher {
             String response = "HTTP/1.1 500 Internal Server Error\r\n" +
                     "Content-Type: text/html; charset=utf-8\r\n" +
                     "\r\n" +
-                    "<html><body><h1>500 Internal Server Error</h1><h5>Ой, что-то сломалось, попробуйте позже...</h5></body></html>";
+                    "<html><body><h1>500 Internal Server Error</h1><h5>Ой, что-то сломалось, попробуйте позже...</h1></body></html>";
             output.write(response.getBytes(StandardCharsets.UTF_8));
         }
     }
