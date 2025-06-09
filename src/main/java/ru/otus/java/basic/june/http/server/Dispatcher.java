@@ -5,6 +5,7 @@ import ru.otus.java.basic.june.http.server.exceptions.BadRequestException;
 import ru.otus.java.basic.june.http.server.processors.CalcRequestProcessor;
 import ru.otus.java.basic.june.http.server.processors.CreateItemRequestProcessor;
 import ru.otus.java.basic.june.http.server.processors.DefaultNotFoundRequestProcessor;
+import ru.otus.java.basic.june.http.server.processors.DefaultStaticResourcesProcessor;
 import ru.otus.java.basic.june.http.server.processors.GetItemsRequestProcessor;
 import ru.otus.java.basic.june.http.server.processors.HelloRequestProcessor;
 import ru.otus.java.basic.june.http.server.processors.RequestProcessor;
