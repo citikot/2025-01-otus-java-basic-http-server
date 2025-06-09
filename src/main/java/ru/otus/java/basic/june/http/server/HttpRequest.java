@@ -38,10 +38,10 @@ public class HttpRequest {
         parse();
     }
 
-    public void info(boolean showRawRequest) {
-        if (showRawRequest) {
-            log.info(rawRequest);
-        }
+    public void info() {
+
+        log.debug(rawRequest);
+
         log.info("METHOD: {}", method);
         log.info("URI: {}", uri);
         log.info("BODY: {}", body);
