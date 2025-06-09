@@ -1,7 +1,12 @@
 package ru.otus.java.basic.june.http.server;
 
 import ru.otus.java.basic.june.http.server.app.ItemsRepository;
-import ru.otus.java.basic.june.http.server.processors.*;
+import ru.otus.java.basic.june.http.server.processors.CalcRequestProcessor;
+import ru.otus.java.basic.june.http.server.processors.CreateItemRequestProcessor;
+import ru.otus.java.basic.june.http.server.processors.DefaultNotFoundRequestProcessor;
+import ru.otus.java.basic.june.http.server.processors.GetItemsRequestProcessor;
+import ru.otus.java.basic.june.http.server.processors.HelloRequestProcessor;
+import ru.otus.java.basic.june.http.server.processors.RequestProcessor;
 
 import java.io.IOException;
 import java.io.OutputStream;
